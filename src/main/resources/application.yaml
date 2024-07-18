@@ -1,0 +1,16 @@
+server:
+  port: 5432
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    hikari:
+      schema: registration
+    username: postgres
+    password: db123
+  jpa:
+    show-sql: true
+    ddl-auto: create
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
