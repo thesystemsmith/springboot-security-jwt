@@ -49,4 +49,11 @@ public class AuthenticationServiceImpl {
     }
 
 
+    public User adminSignUp(SignUpRequest signUpRequest) {
+        User user =  new User();
+        user.setEmail(signUpRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setRole(Role.ADMIN);
+        return userRepository.save(user);
+    }
 }
