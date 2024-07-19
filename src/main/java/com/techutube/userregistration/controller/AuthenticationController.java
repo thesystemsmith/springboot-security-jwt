@@ -1,6 +1,7 @@
 package com.techutube.userregistration.controller;
 
 import com.techutube.userregistration.dto.JwtAuthenticationResponse;
+import com.techutube.userregistration.dto.RefreshTokenRequest;
 import com.techutube.userregistration.dto.SignInRequest;
 import com.techutube.userregistration.dto.SignUpRequest;
 import com.techutube.userregistration.entity.User;
@@ -34,5 +35,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<JwtAuthenticationResponse> signUp(@RequestBody SignInRequest signInRequest){
         return ResponseEntity.ok(authenticationService.signIn(signInRequest));
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtAuthenticationResponse> signUp(@RequestBody RefreshTokenRequest refreshTokenRequest){
+        return ResponseEntity.ok(authenticationService.refreshToken(refreshTokenRequest));
     }
 }

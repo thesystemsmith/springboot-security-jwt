@@ -1,6 +1,7 @@
 package com.techutube.userregistration.service;
 
 import com.techutube.userregistration.dto.JwtAuthenticationResponse;
+import com.techutube.userregistration.dto.RefreshTokenRequest;
 import com.techutube.userregistration.dto.SignUpRequest;
 import com.techutube.userregistration.dto.SignInRequest;
 import com.techutube.userregistration.entity.User;
@@ -55,5 +56,22 @@ public class AuthenticationServiceImpl {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setRole(Role.ADMIN);
         return userRepository.save(user);
+    }
+
+    public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
+        User user = userRepository.findByEmail(userEmail).orElseThrow();
+        if(jwtService.isTokenValid(refreshTokenRequest.getToken(), user)){
+            var jwt = jwtService.generateToken(user);
+
+
+            JwtAuthenticationResponse jwtAuthenticationResponse =
+                    new JwtAuthenticationResponse();
+            jwtAuthenticationResponse.setToken(jwt);
+            jwtAuthenticationResponse.setRefreshToken(refreshTokenRequest.getToken());
+
+            return jwtAuthenticationResponse;
+        }
+        return null;
     }
 }
